@@ -37,7 +37,7 @@ export const VALID_CARD: BodyCard = {
 }
 
 export const INVALID_CARD: BodyCard = {
-  card_number: 4213550030432123,
+  card_number: 4283550130532827,
   cvv: 256,
   expiration_month: "12",
   expiration_year: "2025",

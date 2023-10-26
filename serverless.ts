@@ -4,7 +4,7 @@ import recover from "@functions/recover";
 import "dotenv/config"
 
 const serverlessConfiguration: AWS = {
-  service: 'culqi-technical-test',
+  service: 'lambda-culqi',
   frameworkVersion: '3',
   useDotenv: true,
   provider: {

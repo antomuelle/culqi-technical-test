@@ -1,6 +1,6 @@
 import { validateCCV, validateCard, validateEmail, validateMonth, validateYear } from "../../libs/helpers";
 import { customAlphabet } from "../../libs/nanoid";
-import { redisClient } from "@libs/clients"
+import { redisClient } from "../../libs/clients"
 import type { APIGatewayProxyEventHeaders } from "aws-lambda";
 import type { BodyCard } from "../../libs/types.d";
 

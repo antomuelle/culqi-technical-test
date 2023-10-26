@@ -1,92 +1,64 @@
-<!--
-title: 'AWS Simple HTTP Endpoint example in NodeJS'
-description: 'This template demonstrates how to make a simple HTTP API with Node.js running on AWS Lambda and API Gateway using the Serverless Framework.'
-layout: Doc
-framework: v3
-platform: AWS
-language: nodeJS
-authorLink: 'https://github.com/serverless'
-authorName: 'Serverless, inc.'
-authorAvatar: 'https://avatars1.githubusercontent.com/u/13742415?s=200&v=4'
--->
+# Culqi test
+El proyecto esta desarrollado con el framework "serverless", este necesita tener instalado y configurado la cli de amazon ("AWS CLI") para poder hacer el deploy en "lambda functions", adicionalmente el proyecto tiene 3 archivos .env (.env | .env.development | .env.prod) el primero se carga en cualquier escenario y los otros 2 dependen de si ejecutamos en un entorno local (development) o produccion (prod)
 
-# Serverless Framework Node HTTP API on AWS
-
-This template demonstrates how to make a simple HTTP API with Node.js running on AWS Lambda and API Gateway using the Serverless Framework.
-
-This template does not include any kind of persistence (database). For more advanced examples, check out the [serverless/examples repository](https://github.com/serverless/examples/) which includes Typescript, Mongo, DynamoDB and other examples.
-
-## Usage
-
-### Deployment
-
-```
-$ serverless deploy
-```
-
-After deploying, you should see output similar to:
-
-```bash
-Deploying aws-node-http-api-project to stage dev (us-east-1)
-
-✔ Service deployed to stack aws-node-http-api-project-dev (152s)
-
-endpoint: GET - https://xxxxxxxxxx.execute-api.us-east-1.amazonaws.com/
-functions:
-  hello: aws-node-http-api-project-dev-hello (1.9 kB)
-```
-
-_Note_: In current form, after deployment, your API is public and can be invoked by anyone. For production deployments, you might want to configure an authorizer. For details on how to do that, refer to [http event docs](https://www.serverless.com/framework/docs/providers/aws/events/apigateway/).
-
-### Invocation
-
-After successful deployment, you can call the created application via HTTP:
-
-```bash
-curl https://xxxxxxx.execute-api.us-east-1.amazonaws.com/
-```
-
-Which should result in response similar to the following (removed `input` content for brevity):
+##
+El archivo .env tradicional lleva las los datos del grupo de seguridad y las subnet mask y los otros 2 llevan la configuración para conectarse a las bases de dato (Redis). Dejo ejemplo de los 3 archivos que en todo caso se pueden usar como ejemplo y son funcionales
+### .env
 
 ```json
-{
-  "message": "Go Serverless v2.0! Your function executed successfully!",
-  "input": {
-    ...
-  }
-}
+SECURITY_GROUP_ID="sg-0bd88f7f5ed7ac7c9"
+SUBNET_IDS="subnet-0a0944384678645a4, subnet-07c467b0b34ee0dee, subnet-08e334420785b521d"
 ```
 
-### Local development
+##
+Para este caso he utilizado un cluster de ElastiCache para redis que se encuentra en la mism VPC que las funciones Lambda, pero se puede utilizar cualquier servidor de Redis, de hecho para el entorno local hay que tener instalado el servidor local de Redis o en todo caso indicar una URL diferente para conectarse:
 
-You can invoke your function locally by using the following command:
+### .env.development
+```json
+REDIS_URL="127.0.0.1"
+```
+
+### .env.prod
+```json
+REDIS_URL="culqi-redis.mi0af5.ng.0001.use2.cache.amazonaws.com"
+```
+
+## Ejecutar localmente
+Despues de instalar las dependencias (npm install) lo unico que se debe hacer para probar el proyecto en un entorno local es:
+```bash
+npm run dev
+```
+
+## Desplegar a la nube
+Para hacer el despliegue en la nube solo se debe correr el comando:
+```bash
+npm run deploy
+```
+
+## Test
+Para ejecutar los test solo hay que correr el comando:
+```bash
+npm run test
+```
+
+# Frontend en VUE
+![user interface](./ui_vue.png)
+![user interface](./ui_vue2.png)
+El frontend en VUE trae los colores y el diseño de la pagina oficial de Culqi, la pantalla de inicio de sesion ofrece un boton para establecer las credenciales por defecto, cualquier otra conbinacion devolvera une error.
+Una vez iniciada la sesion y despues de haber enviado correctamente los datos de la tarjeta al servidor, la aplicacion muestra una lista de los tokens generados en el servidor, solo basta con hacer click en alguno de ellos para recuperar los datos de la tarjeta.
+Para probar el formulario solo hay que ingredar al directorio "frontend" y ejecutar el comando dev:
+```bash
+cd frontend
+npm run dev
+```
+El formulario tiene un campo para establecer el endpoint, si no se especifica, por defecto hara las llamadas a localhost, para probar la API desde AWS hay que rellenar este campo con la url de la funcion lambda sin la ultima seccion, ejemplo.
 
 ```bash
-serverless invoke local --function hello
+https://uy7bdq5n2f.execute-api.us-east-2.amazonaws.com/prod/tokens
 ```
-
-Which should result in response similar to the following:
-
-```
-{
-  "statusCode": 200,
-  "body": "{\n  \"message\": \"Go Serverless v3.0! Your function executed successfully!\",\n  \"input\": \"\"\n}"
-}
-```
-
-
-Alternatively, it is also possible to emulate API Gateway and Lambda locally by using `serverless-offline` plugin. In order to do that, execute the following command:
-
+Recortar la ultima seccion para que quede de esta forma:
 ```bash
-serverless plugin install -n serverless-offline
+https://uy7bdq5n2f.execute-api.us-east-2.amazonaws.com/prod
 ```
 
-It will add the `serverless-offline` plugin to `devDependencies` in `package.json` file as well as will add it to `plugins` in `serverless.yml`.
-
-After installation, you can start local emulation with:
-
-```
-serverless offline
-```
-
-To learn more about the capabilities of `serverless-offline`, please refer to its [GitHub repository](https://github.com/dherault/serverless-offline).
+Y eso seria todo, gracias.
