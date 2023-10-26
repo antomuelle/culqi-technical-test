@@ -1,10 +1,10 @@
 import type { AWS } from '@serverless/typescript';
 import tokens from "@functions/tokens";
-import restore from "@functions/restore";
+import recover from "@functions/restore";
 import "dotenv/config"
 
 const serverlessConfiguration: AWS = {
-  service: 'lambda-culqi',
+  service: 'culqi-technical-test',
   frameworkVersion: '3',
   useDotenv: true,
   provider: {
@@ -25,7 +25,7 @@ const serverlessConfiguration: AWS = {
     }
   },
   // import the function via paths
-  functions: { tokens, restore },
+  functions: { tokens, recover },
   package: { individually: true },
   plugins: [
     'serverless-esbuild',
