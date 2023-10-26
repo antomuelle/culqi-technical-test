@@ -1,6 +1,6 @@
 import type { AWS } from '@serverless/typescript';
 import tokens from "@functions/tokens";
-import recover from "@functions/restore";
+import recover from "@functions/recover";
 import "dotenv/config"
 
 const serverlessConfiguration: AWS = {

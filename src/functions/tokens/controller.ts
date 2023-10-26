@@ -1,11 +1,11 @@
 import { validateCCV, validateCard, validateEmail, validateMonth, validateYear } from "../../libs/helpers";
-import { createClient } from "redis";
 import { customAlphabet } from "../../libs/nanoid";
+import { redisClient } from "@libs/clients"
 import type { APIGatewayProxyEventHeaders } from "aws-lambda";
 import type { BodyCard } from "../../libs/types.d";
 
 const nanoid = customAlphabet("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789", 16)
-const redisClient = createClient({ url: "redis://" + process.env.REDIS_URL + ":6379"})
+const pk_prefix = "pk_test_"
 
 export function validateBodyCard(body: BodyCard): boolean|string {
   const { card_number, cvv, expiration_month, expiration_year, email } = body
@@ -28,7 +28,11 @@ export function getPK(headers: APIGatewayProxyEventHeaders): string|false {
   if (!authorization) return false
   const token = authorization.replace(/^Bearer\s+/, "")
   if (!token) return false
-  
+  if (!token.startsWith(pk_prefix)) return false
+
+  const alpha_num = token.substring(pk_prefix.length)
+  if (!/^[a-zA-Z0-9]{16}$/.test(alpha_num)) return false
+
   return token
 }
 

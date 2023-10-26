@@ -6,7 +6,7 @@ export default {
   events: [{
     http: {
       method: "post",
-      path: "/restore",
+      path: "/recover",
       request: {
         schemas: { "application/json": schema },
       }
