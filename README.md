@@ -2,7 +2,7 @@
 El proyecto esta desarrollado con el framework "serverless", este necesita tener instalado y configurado la cli de amazon ("AWS CLI") para poder hacer el deploy en "lambda functions", adicionalmente el proyecto tiene 3 archivos .env (.env | .env.development | .env.prod) el primero se carga en cualquier escenario y los otros 2 dependen de si ejecutamos en un entorno local (development) o produccion (prod)
 
 ##
-El archivo .env tradicional lleva las los datos del grupo de seguridad y las subnet mask y los otros 2 llevan la configuración para conectarse a las bases de dato (Redis). Dejo ejemplo de los 3 archivos que en todo caso se pueden usar como ejemplo y son funcionales
+El archivo .env tradicional lleva las los datos del grupo de seguridad y las subnet mask y los otros 2 llevan la configuración para conectarse a las bases de dato (Redis). Dejo ejemplo de los 3 archivos.
 ### .env
 
 ```json
